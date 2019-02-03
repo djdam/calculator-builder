@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+
+import {Provider} from 'react-redux'
+import {createStore, combineReducers} from 'redux'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {Home} from './containers/HomeContainer';
+import BackButton from './components/BackButton';
+import { AddField } from './containers/AddFieldContainer';
+import AppReducer from './reducers/AppReducer'
 import './App.css';
 
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+
+const store = createStore(AppReducer)
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+
+    render() {
+        return (
+            <Router>
+                <Provider store={store}>
+                    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/(.+)" component={BackButton}/>
+
+                    <Route path="/addField" component={AddField}/>
+
+                </Provider>
+            </Router>
+        );
+    }
 }
 
 export default App;
